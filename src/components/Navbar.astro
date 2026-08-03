@@ -1,0 +1,570 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+type Locale = "en" | "el";
+const locale = (Astro.currentLocale ?? "en") as Locale;
+
+const strings = {
+  en: {
+    menu: "Menu",
+    close: "Close",
+    book: "Book",
+    announcement: "Now accepting new appointments — book your first visit",
+    dismiss: "Dismiss announcement",
+    home: "Home",
+    about: "About",
+    contact: "Contact",
+    services: "Services",
+    categories: [
+      {
+        id: "body",
+        label: "Body",
+        items: [
+          { label: "Body Massage", slug: "body-massage" },
+          {
+            label: "Specialized Cellulite Treatments",
+            slug: "cellulite-treatments",
+          },
+          { label: "Hair Removal", slug: "hair-removal" },
+        ],
+      },
+      {
+        id: "face",
+        label: "Face",
+        items: [
+          { label: "Holistic Face Treatments", slug: "holistic-face" },
+          { label: "Facial Care", slug: "facial-care" },
+        ],
+      },
+    ],
+  },
+  el: {
+    menu: "Μενού",
+    close: "Κλείσιμο",
+    book: "Ραντεβού",
+    announcement: "Δεχόμαστε νέα ραντεβού — κλείστε την πρώτη σας επίσκεψη",
+    dismiss: "Απόκρυψη ανακοίνωσης",
+    home: "Αρχική",
+    about: "Σχετικά",
+    contact: "Επικοινωνία",
+    services: "Υπηρεσίες",
+    categories: [
+      {
+        id: "body",
+        label: "Σώμα",
+        items: [
+          { label: "Μασάζ σώματος", slug: "body-massage" },
+          {
+            label: "Εξειδικευμένες αγωγές κυτταρίτιδας",
+            slug: "cellulite-treatments",
+          },
+          { label: "Αποτρίχωση", slug: "hair-removal" },
+        ],
+      },
+      {
+        id: "face",
+        label: "Πρόσωπο",
+        items: [
+          { label: "Ολιστικές αγωγές προσώπου", slug: "holistic-face" },
+          { label: "Περιποιήσεις προσώπου", slug: "facial-care" },
+        ],
+      },
+    ],
+  },
+} as const;
+
+const t = strings[locale];
+const homeUrl = getRelativeLocaleUrl(locale, "/");
+const restLinks = [
+  { label: t.about, href: `${homeUrl}#about` },
+  { label: t.contact, href: `${homeUrl}#contact` },
+];
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-50 border-b border-transparent text-zinc-900"
+>
+  <!-- Announcement strip -->
+  <div id="announcement" class="announcement bg-zinc-950 text-zinc-50">
+    <div
+      class="relative mx-auto flex h-9 max-w-7xl items-center justify-center px-6 md:px-10"
+    >
+      <p class="truncate text-[10px] font-medium uppercase tracking-[0.25em]">
+        {t.announcement}
+      </p>
+      <button
+        id="dismiss-announcement"
+        type="button"
+        aria-label={t.dismiss}
+        class="absolute right-2 flex h-9 w-9 cursor-pointer items-center justify-center opacity-60 transition-opacity hover:opacity-100 md:right-5"
+      >
+        <svg
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M1 1l8 8M9 1l-8 8" stroke="currentColor"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bar -->
+  <div
+    class="nav-inner mx-auto grid h-20 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-6 md:h-24 md:px-10"
+  >
+    <!-- Locale switcher with sliding underline -->
+    <nav
+      aria-label="Language"
+      class="relative flex items-center gap-3 justify-self-start text-[11px] font-medium uppercase tracking-[0.25em]"
+    >
+      <a
+        href={getRelativeLocaleUrl("en", "/")}
+        aria-current={locale === "en" ? "true" : undefined}
+        class:list={[
+          "w-8 py-2 text-center transition-opacity hover:opacity-100",
+          locale === "en" ? "opacity-100" : "opacity-40",
+        ]}>EN</a
+      >
+      <a
+        href={getRelativeLocaleUrl("el", "/")}
+        aria-current={locale === "el" ? "true" : undefined}
+        class:list={[
+          "w-8 py-2 text-center transition-opacity hover:opacity-100",
+          locale === "el" ? "opacity-100" : "opacity-40",
+        ]}>EL</a
+      >
+      <span
+        aria-hidden="true"
+        class:list={["locale-indicator", locale === "el" && "is-el"]}></span>
+    </nav>
+
+    <!-- Logo -->
+    <a
+      href={homeUrl}
+      class="justify-self-center font-display text-lg font-medium uppercase tracking-[0.2em] whitespace-nowrap sm:text-2xl md:text-3xl md:tracking-[0.25em]"
+    >
+      High Beauty Care
+    </a>
+
+    <!-- Right cluster: Book CTA + burger -->
+    <div class="flex items-center gap-2 justify-self-end sm:gap-4">
+      <a
+        href="#contact"
+        class="book-cta hidden bg-zinc-900 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-50 transition-all duration-500 hover:bg-zinc-700 sm:inline-block"
+      >
+        {t.book}
+      </a>
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="fullscreen-menu"
+        aria-label={t.menu}
+        class="relative flex h-12 cursor-pointer items-center gap-3"
+      >
+        <span class="hidden md:grid">
+          <span
+            class="label-menu col-start-1 row-start-1 text-[10px] font-medium uppercase tracking-[0.3em] transition-opacity duration-300"
+            >{t.menu}</span
+          >
+          <span
+            class="label-close col-start-1 row-start-1 text-[10px] font-medium uppercase tracking-[0.3em] opacity-0 transition-opacity duration-300"
+            >{t.close}</span
+          >
+        </span>
+        <span class="relative block h-12 w-10">
+          <span class="line line-top absolute top-1/2 left-0 h-px w-10 bg-current"
+          ></span>
+          <span
+            class="line line-bottom absolute top-1/2 left-0 h-px w-10 bg-current"
+          ></span>
+        </span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Fullscreen menu -->
+<div
+  id="fullscreen-menu"
+  aria-hidden="true"
+  class="fixed inset-0 z-40 flex overflow-y-auto bg-zinc-950 text-zinc-50"
+>
+  <nav class="m-auto w-full max-w-7xl px-6 py-24 md:px-10">
+    <ol class="flex flex-col gap-2 md:gap-4">
+      <!-- 01 Home -->
+      <li class="menu-item" style="--i: 0">
+        <a href={homeUrl} class="group flex items-baseline gap-4 py-1 md:gap-6">
+          <span
+            class="font-sans text-[11px] tracking-[0.3em] text-zinc-500 transition-colors duration-300 group-hover:text-zinc-300"
+            >01</span
+          >
+          <span
+            class="font-display text-5xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-7xl"
+            >{t.home}</span
+          >
+        </a>
+      </li>
+
+      <!-- 02 Services accordion -->
+      <li class="menu-item" style="--i: 1">
+        <button
+          type="button"
+          data-accordion
+          aria-expanded="false"
+          aria-controls="acc-services"
+          class="group flex w-full cursor-pointer items-center gap-4 py-1 text-left md:gap-6"
+        >
+          <span
+            class="font-sans text-[11px] tracking-[0.3em] text-zinc-500 transition-colors duration-300 group-hover:text-zinc-300"
+            >02</span
+          >
+          <span
+            class="acc-label font-display text-5xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-7xl"
+            >{t.services}</span
+          >
+          <span aria-hidden="true" class="plus relative block h-3.5 w-3.5 shrink-0">
+            <span
+              class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-current"
+            ></span>
+            <span
+              class="plus-v absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-current"
+            ></span>
+          </span>
+        </button>
+
+        <div id="acc-services" class="panel">
+          <div>
+            {
+              t.categories.map((category) => (
+                <div class="pt-1">
+                  <button
+                    type="button"
+                    data-accordion
+                    aria-expanded="false"
+                    aria-controls={`acc-${category.id}`}
+                    class="group flex w-full cursor-pointer items-center gap-3 py-1 pl-8 text-left md:pl-12"
+                  >
+                    <span class="acc-label font-display text-2xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-3xl">
+                      {category.label}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="plus relative block h-2.5 w-2.5 shrink-0"
+                    >
+                      <span class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-current" />
+                      <span class="plus-v absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-current" />
+                    </span>
+                  </button>
+                  <div id={`acc-${category.id}`} class="panel">
+                    <div>
+                      <ul class="flex flex-col gap-1 py-2 pl-8 md:pl-12">
+                        {category.items.map((item) => (
+                          <li>
+                            <a
+                              href={`${homeUrl}#${item.slug}`}
+                              class="group/item flex items-center gap-3 py-1 text-sm font-medium tracking-[0.18em] text-zinc-500 uppercase transition-colors duration-300 hover:text-zinc-50 md:text-base"
+                            >
+                              <span
+                                aria-hidden="true"
+                                class="h-px w-4 bg-zinc-700 transition-colors duration-300 group-hover/item:bg-zinc-400"
+                              />
+                              {item.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </li>
+
+      <!-- 03 / 04 -->
+      {
+        restLinks.map((link, i) => (
+          <li class="menu-item" style={`--i: ${i + 2}`}>
+            <a
+              href={link.href}
+              class="group flex items-baseline gap-4 py-1 md:gap-6"
+            >
+              <span class="font-sans text-[11px] tracking-[0.3em] text-zinc-500 transition-colors duration-300 group-hover:text-zinc-300">
+                0{i + 3}
+              </span>
+              <span class="font-display text-5xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-7xl">
+                {link.label}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+</div>
+
+<style>
+  /* ---------- Header states ---------- */
+  #site-header {
+    transition:
+      transform 0.5s cubic-bezier(0.77, 0, 0.18, 1),
+      background-color 0.5s ease,
+      border-color 0.5s ease,
+      color 0.5s ease,
+      box-shadow 0.5s ease;
+  }
+
+  /* Scrolled: glass + hairline + subtle shadow */
+  #site-header.is-scrolled {
+    background-color: rgb(250 250 250 / 0.8);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-color: var(--color-zinc-200);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+  }
+
+  /* Hide on scroll down */
+  #site-header.is-hidden {
+    transform: translateY(-100%);
+  }
+
+  /* Shrink bar height when scrolled */
+  .nav-inner {
+    transition: height 0.45s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  #site-header.is-scrolled .nav-inner {
+    height: 4rem;
+  }
+
+  /* Announcement collapse */
+  .announcement {
+    max-height: 2.25rem;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  #site-header.is-scrolled .announcement,
+  .announcement.is-dismissed {
+    max-height: 0;
+  }
+
+  /* ---------- Locale sliding underline ---------- */
+  .locale-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    height: 1px;
+    width: 2rem;
+    background-color: currentColor;
+    transition: transform 0.35s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  .locale-indicator.is-el {
+    transform: translateX(2.75rem);
+  }
+
+  /* ---------- Burger ---------- */
+  .line {
+    transition:
+      transform 0.5s cubic-bezier(0.77, 0, 0.18, 1),
+      background-color 0.3s ease;
+  }
+
+  .line-top {
+    transform: translateY(calc(-50% - 5px));
+  }
+
+  .line-bottom {
+    transform: translateY(calc(-50% + 5px));
+  }
+
+  /* Hover: lines spread apart */
+  #menu-toggle:hover .line-top {
+    transform: translateY(calc(-50% - 7px));
+  }
+
+  #menu-toggle:hover .line-bottom {
+    transform: translateY(calc(-50% + 7px));
+  }
+
+  /* ---------- Open state (overrides the above) ---------- */
+  #site-header.is-open {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--color-zinc-50);
+  }
+
+  #site-header.is-open .announcement {
+    max-height: 0;
+  }
+
+  #site-header.is-open .book-cta {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #site-header.is-open .label-menu {
+    opacity: 0;
+  }
+
+  #site-header.is-open .label-close {
+    opacity: 1;
+  }
+
+  #site-header.is-open .line-top {
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  #site-header.is-open .line-bottom {
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  /* ---------- Fullscreen menu reveal ---------- */
+  #fullscreen-menu {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.6s cubic-bezier(0.77, 0, 0.18, 1),
+      visibility 0s linear 0.6s;
+  }
+
+  #fullscreen-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  .menu-item {
+    opacity: 0;
+    transform: translateY(2rem);
+    transition:
+      opacity 0.5s ease,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  #fullscreen-menu.is-open .menu-item {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: calc(0.15s + var(--i) * 0.07s);
+  }
+
+  /* ---------- Accordions ---------- */
+  .panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.5s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  .panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .panel > div {
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s linear 0.5s;
+  }
+
+  .panel.is-open > div {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  /* Plus -> minus */
+  .plus-v {
+    transition: rotate 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+  }
+
+  [data-accordion][aria-expanded="true"] .plus-v {
+    rotate: 90deg;
+  }
+
+  [data-accordion][aria-expanded="true"] .acc-label {
+    color: var(--color-zinc-50);
+  }
+</style>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("fullscreen-menu");
+  const announcement = document.getElementById("announcement");
+  const dismiss = document.getElementById("dismiss-announcement");
+
+  /* ---------- Accordions ---------- */
+  const accordionButtons =
+    menu?.querySelectorAll<HTMLButtonElement>("[data-accordion]") ?? [];
+
+  function setAccordion(button: HTMLButtonElement, open: boolean) {
+    const panelId = button.getAttribute("aria-controls");
+    const panel = panelId ? document.getElementById(panelId) : null;
+    button.setAttribute("aria-expanded", String(open));
+    panel?.classList.toggle("is-open", open);
+  }
+
+  accordionButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      setAccordion(button, button.getAttribute("aria-expanded") !== "true");
+    });
+  });
+
+  /* ---------- Fullscreen menu ---------- */
+  function setMenu(open: boolean) {
+    header?.classList.toggle("is-open", open);
+    menu?.classList.toggle("is-open", open);
+    if (open) header?.classList.remove("is-hidden");
+    if (!open) accordionButtons.forEach((b) => setAccordion(b, false));
+    toggle?.setAttribute("aria-expanded", String(open));
+    menu?.setAttribute("aria-hidden", String(!open));
+    document.documentElement.style.overflow = open ? "hidden" : "";
+  }
+
+  toggle?.addEventListener("click", () => {
+    setMenu(!header?.classList.contains("is-open"));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenu(false);
+  });
+
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenu(false));
+  });
+
+  /* ---------- Scroll: glass, shrink, hide/reveal ---------- */
+  let lastY = window.scrollY;
+
+  function onScroll() {
+    const y = window.scrollY;
+    header?.classList.toggle("is-scrolled", y > 40);
+    if (!header?.classList.contains("is-open")) {
+      if (y > lastY && y > 150) {
+        header?.classList.add("is-hidden");
+      } else {
+        header?.classList.remove("is-hidden");
+      }
+    }
+    lastY = y;
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Announcement dismiss (persisted) ---------- */
+  if (localStorage.getItem("hbc-announcement-dismissed") === "1") {
+    announcement?.classList.add("is-dismissed");
+  }
+
+  dismiss?.addEventListener("click", () => {
+    announcement?.classList.add("is-dismissed");
+    localStorage.setItem("hbc-announcement-dismissed", "1");
+  });
+</script>

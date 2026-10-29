@@ -1,0 +1,60 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import studio3 from "../assets/media/studio-3.jpg";
+---
+
+<Base
+  title="Our Space — High Beauty Care"
+  description="Get to know our space in Nea Ionia — a calm, considered studio designed around personal care. Placeholder description."
+>
+  <section>
+    <div class="mx-auto w-full max-w-7xl px-6 pb-16 pt-40 md:px-10 md:pb-20 md:pt-52">
+      <p
+        class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900"
+      >
+        <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+        Our space
+      </p>
+      <h1
+        class="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-6xl"
+      >
+        A space designed for care.
+      </h1>
+      <!-- Placeholder copy: replace with final text -->
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-zinc-500">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <Image
+      src={studio3}
+      alt=""
+      widths={[640, 1024, 1600, 2400]}
+      sizes="100vw"
+      class="aspect-[16/9] max-h-[80vh] w-full object-cover"
+      loading="eager"
+    />
+  </section>
+
+  <section class="border-t border-zinc-200">
+    <div class="mx-auto w-full max-w-7xl px-6 py-24 md:px-10 md:py-32">
+      <!-- Placeholder copy: replace with final text -->
+      <div class="grid max-w-2xl space-y-5 text-base leading-relaxed text-zinc-600">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+        <p>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+          dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+          non proident.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

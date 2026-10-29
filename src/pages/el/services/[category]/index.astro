@@ -1,0 +1,62 @@
+---
+import Base from "../../../../layouts/Base.astro";
+import TreatmentCard from "../../../../components/TreatmentCard.astro";
+import { getCategories, type Locale } from "../../../../data/site";
+import { ui } from "../../../../data/ui";
+import type { Category } from "../../../../data/types";
+
+export function getStaticPaths() {
+  return getCategories("el").map((category) => ({
+    params: { category: category.slug },
+    props: { locale: "el" as Locale, category },
+  }));
+}
+
+const { locale, category } = Astro.props as { locale: Locale; category: Category };
+const t = ui[locale];
+const homeUrl = locale === "el" ? "/el/" : "/";
+---
+
+<Base
+  title={`${category.title} — High Beauty Care`}
+  description={category.short}
+>
+  <section class="border-t border-zinc-200">
+    <div class="mx-auto w-full max-w-7xl px-6 pb-20 pt-40 md:px-10 md:pb-28 md:pt-52">
+      <a
+        href={homeUrl}
+        class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 transition-colors hover:text-zinc-900"
+      >
+        ← {t.category.allServices}
+      </a>
+
+      <p class="mt-10 flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900">
+        <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+        {t.category.eyebrow}
+      </p>
+      <h1 class="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
+        {category.title}
+      </h1>
+      {category.lead && (
+        <p class="mt-6 max-w-xl text-base leading-relaxed text-zinc-600 md:text-lg">
+          {category.lead}
+        </p>
+      )}
+
+      <p class="mt-8 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400">
+        {t.category.treatmentsCount(category.treatments.length)}
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto w-full max-w-7xl px-6 pb-24 md:px-10 md:pb-32">
+    {category.treatments.map((treatment, i) => (
+      <TreatmentCard
+        treatment={treatment}
+        index={i}
+        locale={locale}
+        categorySlug={category.slug}
+      />
+    ))}
+  </section>
+</Base>

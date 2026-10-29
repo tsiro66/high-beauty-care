@@ -1,12 +1,17 @@
 ---
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
 
 interface Props {
   title?: string;
+  description?: string;
 }
 
-const { title = "High Beauty Care" } = Astro.props;
+const {
+  title = "High Beauty Care — Aesthetics & Wellness Studio",
+  description = "Facial treatments, holistic face and body therapies and specialized anti-cellulite programs in Nea Ionia. Personal care, premium products, lasting results.",
+} = Astro.props;
 const lang = Astro.currentLocale ?? "en";
 const skipText =
   lang === "el" ? "Μετάβαση στο περιεχόμενο" : "Skip to content";
@@ -20,6 +25,12 @@ const skipText =
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body class="min-h-screen text-zinc-900">
     <a
@@ -33,5 +44,7 @@ const skipText =
     <main id="content" class="min-h-screen">
       <slot />
     </main>
+
+    <Footer />
   </body>
 </html>

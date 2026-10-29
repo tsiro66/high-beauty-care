@@ -1,0 +1,49 @@
+---
+import type { Locale } from "../data/site";
+import { ui } from "../data/ui";
+import type { Treatment } from "../data/types";
+
+interface Props {
+  treatment: Treatment;
+  index: number;
+  locale: Locale;
+  categorySlug: string;
+}
+
+const { treatment, index, locale, categorySlug } = Astro.props;
+const t = ui[locale];
+const href =
+  locale === "el"
+    ? `/el/services/${categorySlug}/${treatment.slug}/`
+    : `/services/${categorySlug}/${treatment.slug}/`;
+const num = String(index + 1).padStart(2, "0");
+---
+
+<a
+  href={href}
+  class="group flex items-start gap-6 border-t border-zinc-200 py-8 transition-colors last:border-b hover:bg-zinc-50 md:gap-10 md:py-10"
+>
+  <span
+    class="mt-1 font-sans text-[11px] tracking-[0.3em] text-zinc-400 transition-colors group-hover:text-zinc-900"
+  >
+    {num}
+  </span>
+
+  <span class="flex-1">
+    <span
+      class="block font-display text-2xl leading-tight tracking-tight text-zinc-900 transition-transform duration-300 group-hover:translate-x-1 md:text-3xl"
+    >
+      {treatment.title}
+    </span>
+    <span class="mt-2 block max-w-xl text-sm leading-relaxed text-zinc-500">
+      {treatment.tagline}
+    </span>
+  </span>
+
+  <span
+    aria-hidden="true"
+    class="mt-2 font-sans text-lg text-zinc-400 transition-all duration-300 group-hover:translate-x-1 group-hover:text-zinc-900"
+  >
+    →
+  </span>
+</a>

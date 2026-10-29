@@ -1,0 +1,58 @@
+---
+import { Image } from "astro:assets";
+import { ui } from "../data/ui";
+import type { Locale } from "../data/site";
+import studio1 from "../assets/media/studio-1.jpg";
+import studio2 from "../assets/media/studio-2.jpg";
+
+const locale = (Astro.currentLocale ?? "en") as Locale;
+const t = ui[locale];
+---
+
+<section id="about" class="border-t border-zinc-200">
+  <div class="mx-auto w-full max-w-7xl px-6 py-24 md:px-10 md:py-32">
+    <div class="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
+      <div>
+        <p class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900">
+          <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+          {t.home.aboutEyebrow}
+        </p>
+        <h2 class="mt-6 font-display text-4xl leading-tight tracking-tight sm:text-5xl">
+          Lorem ipsum dolor sit amet.
+        </h2>
+        <!-- Placeholder copy: replace with final about text -->
+        <div class="mt-8 space-y-5 text-base leading-relaxed text-zinc-600">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris.
+          </p>
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+            cupidatat non proident, sunt in culpa qui officia deserunt.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 self-start md:gap-6">
+        <Image
+          src={studio1}
+          alt=""
+          widths={[400, 700, 1000]}
+          sizes="(min-width: 1024px) 24rem, 50vw"
+          class="aspect-[3/4] w-full object-cover"
+          loading="lazy"
+        />
+        <Image
+          src={studio2}
+          alt=""
+          widths={[400, 700, 1000]}
+          sizes="(min-width: 1024px) 24rem, 50vw"
+          class="mt-10 aspect-[3/4] w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>

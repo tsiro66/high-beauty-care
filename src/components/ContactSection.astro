@@ -1,0 +1,98 @@
+---
+import { ui } from "../data/ui";
+import { contact } from "../data/contact";
+import type { Locale } from "../data/site";
+
+const locale = (Astro.currentLocale ?? "en") as Locale;
+const t = ui[locale];
+---
+
+<section id="contact" class="border-t border-zinc-200 bg-zinc-950 text-zinc-50">
+  <div class="mx-auto w-full max-w-7xl px-6 py-24 md:px-10 md:py-32">
+    <p
+      class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-400"
+    >
+      <span aria-hidden="true" class="h-px w-12 bg-zinc-400"></span>
+      {t.home.contactEyebrow}
+    </p>
+    <h2
+      class="mt-6 font-display text-4xl leading-tight tracking-tight sm:text-5xl md:text-6xl"
+    >
+      {t.home.contactHeading}
+    </h2>
+    <p class="mt-4 max-w-md text-base leading-relaxed text-zinc-400">
+      {t.home.contactSub}
+    </p>
+
+    <div
+      class="mt-14 grid grid-cols-1 gap-x-10 gap-y-10 border-t border-zinc-800 pt-12 sm:grid-cols-2 lg:grid-cols-4"
+    >
+      <div>
+        <p class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-500">
+          {t.contact.phone}
+        </p>
+        <a
+          href={contact.phoneHref}
+          class="mt-3 block font-display text-2xl text-zinc-50 transition-colors hover:text-zinc-300"
+        >
+          {contact.phoneDisplay}
+        </a>
+        <a
+          href={`mailto:${contact.email}`}
+          class="mt-2 block text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+        >
+          {contact.email}
+        </a>
+      </div>
+
+      <div>
+        <p class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-500">
+          {t.contact.address}
+        </p>
+        <p class="mt-3 text-sm leading-relaxed text-zinc-300">
+          {contact.street}<br />{contact.city}
+        </p>
+        <a
+          href={contact.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-2 inline-block text-sm text-zinc-400 underline underline-offset-4 transition-colors hover:text-zinc-200"
+        >
+          Google Maps
+        </a>
+      </div>
+
+      <div>
+        <p class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-500">
+          {t.contact.hours}
+        </p>
+        <ul class="mt-3 space-y-1 text-sm leading-relaxed text-zinc-300">
+          {t.contact.hoursValue.map((line) => <li>{line}</li>)}
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-500">
+          {t.contact.follow}
+        </p>
+        <a
+          href={contact.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-3 block text-sm text-zinc-300 transition-colors hover:text-zinc-100"
+        >
+          Instagram — {contact.instagramHandle}
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-14">
+      <a
+        href={contact.phoneHref}
+        class="inline-block bg-zinc-50 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-zinc-300"
+      >
+        {t.home.bookCta}
+      </a>
+    </div>
+  </div>
+</section>

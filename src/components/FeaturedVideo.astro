@@ -1,0 +1,63 @@
+---
+import { ui } from "../data/ui";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import type { Locale } from "../data/site";
+import video from "../assets/media/headspa-square.mp4";
+import poster from "../assets/media/headspa-square-poster.jpg";
+
+interface Props {
+  categorySlug: string;
+  targetSlug: string;
+}
+
+const { categorySlug, targetSlug } = Astro.props;
+const locale = (Astro.currentLocale ?? "en") as Locale;
+const t = ui[locale];
+const href = getRelativeLocaleUrl(locale, `/services/${categorySlug}/${targetSlug}/`);
+---
+
+<section class="bg-zinc-950 text-zinc-50">
+  <div class="mx-auto grid w-full max-w-7xl grid-cols-1 items-stretch gap-0 lg:grid-cols-[45%_55%]">
+    <div class="relative aspect-[4/5] overflow-hidden lg:aspect-auto lg:h-full">
+      <video
+        class="featured-video absolute inset-0 h-full w-full object-cover object-center"
+        src={video}
+        poster={poster.src}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+      >
+      </video>
+    </div>
+
+    <div class="flex flex-col justify-center px-6 py-16 sm:px-10 md:px-16 md:py-24">
+      <p class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-400">
+        <span aria-hidden="true" class="h-px w-12 bg-zinc-400"></span>
+        {t.home.featuredEyebrow}
+      </p>
+      <h2 class="mt-6 max-w-xl font-display text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl">
+        {t.home.featuredHeading}
+      </h2>
+      <p class="mt-6 max-w-md text-base leading-relaxed text-zinc-300">
+        {t.home.featuredBody}
+      </p>
+      <a
+        href={href}
+        class="mt-8 inline-block self-start border border-zinc-50 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors hover:bg-zinc-50 hover:text-zinc-900"
+      >
+        {t.home.featuredCta}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .featured-video {
+      display: none;
+    }
+  }
+</style>

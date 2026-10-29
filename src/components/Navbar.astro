@@ -1,83 +1,19 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
+import { ui } from "../data/ui";
+import { getCategories, type Locale } from "../data/site";
 
-type Locale = "en" | "el";
 const locale = (Astro.currentLocale ?? "en") as Locale;
-
-const strings = {
-  en: {
-    menu: "Menu",
-    close: "Close",
-    book: "Book",
-    announcement: "Now accepting new appointments — book your first visit",
-    dismiss: "Dismiss announcement",
-    home: "Home",
-    about: "About",
-    contact: "Contact",
-    services: "Services",
-    categories: [
-      {
-        id: "body",
-        label: "Body",
-        items: [
-          { label: "Body Massage", slug: "body-massage" },
-          {
-            label: "Specialized Cellulite Treatments",
-            slug: "cellulite-treatments",
-          },
-          { label: "Hair Removal", slug: "hair-removal" },
-        ],
-      },
-      {
-        id: "face",
-        label: "Face",
-        items: [
-          { label: "Holistic Face Treatments", slug: "holistic-face" },
-          { label: "Facial Care", slug: "facial-care" },
-        ],
-      },
-    ],
-  },
-  el: {
-    menu: "Μενού",
-    close: "Κλείσιμο",
-    book: "Ραντεβού",
-    announcement: "Δεχόμαστε νέα ραντεβού — κλείστε την πρώτη σας επίσκεψη",
-    dismiss: "Απόκρυψη ανακοίνωσης",
-    home: "Αρχική",
-    about: "Σχετικά",
-    contact: "Επικοινωνία",
-    services: "Υπηρεσίες",
-    categories: [
-      {
-        id: "body",
-        label: "Σώμα",
-        items: [
-          { label: "Μασάζ σώματος", slug: "body-massage" },
-          {
-            label: "Εξειδικευμένες αγωγές κυτταρίτιδας",
-            slug: "cellulite-treatments",
-          },
-          { label: "Αποτρίχωση", slug: "hair-removal" },
-        ],
-      },
-      {
-        id: "face",
-        label: "Πρόσωπο",
-        items: [
-          { label: "Ολιστικές αγωγές προσώπου", slug: "holistic-face" },
-          { label: "Περιποιήσεις προσώπου", slug: "facial-care" },
-        ],
-      },
-    ],
-  },
-} as const;
-
-const t = strings[locale];
+const t = ui[locale];
 const homeUrl = getRelativeLocaleUrl(locale, "/");
+const serviceCategories = getCategories(locale).map((category) => ({
+  slug: category.slug,
+  label: category.title,
+  href: getRelativeLocaleUrl(locale, `/services/${category.slug}/`),
+}));
 const restLinks = [
-  { label: t.about, href: `${homeUrl}#about` },
-  { label: t.contact, href: `${homeUrl}#contact` },
+  { label: t.nav.about, href: getRelativeLocaleUrl(locale, "/our-space/") },
+  { label: t.nav.contact, href: `${homeUrl}#contact` },
 ];
 ---
 
@@ -91,12 +27,12 @@ const restLinks = [
       class="relative mx-auto flex h-9 max-w-7xl items-center justify-center px-6 md:px-10"
     >
       <p class="truncate text-[10px] font-medium uppercase tracking-[0.25em]">
-        {t.announcement}
+        {t.nav.announcement}
       </p>
       <button
         id="dismiss-announcement"
         type="button"
-        aria-label={t.dismiss}
+        aria-label={t.nav.dismiss}
         class="absolute right-2 flex h-9 w-9 cursor-pointer items-center justify-center opacity-60 transition-opacity hover:opacity-100 md:right-5"
       >
         <svg
@@ -114,7 +50,7 @@ const restLinks = [
 
   <!-- Bar -->
   <div
-    class="nav-inner mx-auto grid h-20 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-6 md:h-24 md:px-10"
+    class="nav-inner mx-auto grid h-20 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 md:h-24 md:px-10"
   >
     <!-- Locale switcher with sliding underline -->
     <nav
@@ -145,7 +81,7 @@ const restLinks = [
     <!-- Logo -->
     <a
       href={homeUrl}
-      class="justify-self-center font-display text-lg font-medium uppercase tracking-[0.2em] whitespace-nowrap sm:text-2xl md:text-3xl md:tracking-[0.25em]"
+      class="justify-self-center font-display text-sm font-medium uppercase tracking-[0.12em] whitespace-nowrap sm:text-2xl sm:tracking-[0.2em] md:text-3xl md:tracking-[0.25em]"
     >
       High Beauty Care
     </a>
@@ -154,26 +90,26 @@ const restLinks = [
     <div class="flex items-center gap-2 justify-self-end sm:gap-4">
       <a
         href="#contact"
-        class="book-cta hidden bg-zinc-900 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-50 transition-all duration-500 hover:bg-zinc-700 sm:inline-block"
+        class="book-cta hidden border border-transparent bg-zinc-900 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-50 transition-all duration-500 hover:bg-zinc-700 sm:inline-block"
       >
-        {t.book}
+        {t.nav.book}
       </a>
       <button
         id="menu-toggle"
         type="button"
         aria-expanded="false"
         aria-controls="fullscreen-menu"
-        aria-label={t.menu}
+        aria-label={t.nav.menu}
         class="relative flex h-12 cursor-pointer items-center gap-3"
       >
         <span class="hidden md:grid">
           <span
             class="label-menu col-start-1 row-start-1 text-[10px] font-medium uppercase tracking-[0.3em] transition-opacity duration-300"
-            >{t.menu}</span
+            >{t.nav.menu}</span
           >
           <span
             class="label-close col-start-1 row-start-1 text-[10px] font-medium uppercase tracking-[0.3em] opacity-0 transition-opacity duration-300"
-            >{t.close}</span
+            >{t.nav.close}</span
           >
         </span>
         <span class="relative block h-12 w-10">
@@ -205,7 +141,7 @@ const restLinks = [
           >
           <span
             class="font-display text-5xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-7xl"
-            >{t.home}</span
+            >{t.nav.home}</span
           >
         </a>
       </li>
@@ -225,7 +161,7 @@ const restLinks = [
           >
           <span
             class="acc-label font-display text-5xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-7xl"
-            >{t.services}</span
+            >{t.nav.services}</span
           >
           <span aria-hidden="true" class="plus relative block h-3.5 w-3.5 shrink-0">
             <span
@@ -240,46 +176,16 @@ const restLinks = [
         <div id="acc-services" class="panel">
           <div>
             {
-              t.categories.map((category) => (
+              serviceCategories.map((category) => (
                 <div class="pt-1">
-                  <button
-                    type="button"
-                    data-accordion
-                    aria-expanded="false"
-                    aria-controls={`acc-${category.id}`}
-                    class="group flex w-full cursor-pointer items-center gap-3 py-1 pl-8 text-left md:pl-12"
+                  <a
+                    href={category.href}
+                    class="group flex w-full items-center gap-3 py-1 pl-8 text-left md:pl-12"
                   >
-                    <span class="acc-label font-display text-2xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-3xl">
+                    <span class="font-display text-2xl leading-none text-zinc-400 transition-all duration-300 group-hover:translate-x-2 group-hover:text-zinc-50 md:text-3xl">
                       {category.label}
                     </span>
-                    <span
-                      aria-hidden="true"
-                      class="plus relative block h-2.5 w-2.5 shrink-0"
-                    >
-                      <span class="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-current" />
-                      <span class="plus-v absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-current" />
-                    </span>
-                  </button>
-                  <div id={`acc-${category.id}`} class="panel">
-                    <div>
-                      <ul class="flex flex-col gap-1 py-2 pl-8 md:pl-12">
-                        {category.items.map((item) => (
-                          <li>
-                            <a
-                              href={`${homeUrl}#${item.slug}`}
-                              class="group/item flex items-center gap-3 py-1 text-sm font-medium tracking-[0.18em] text-zinc-500 uppercase transition-colors duration-300 hover:text-zinc-50 md:text-base"
-                            >
-                              <span
-                                aria-hidden="true"
-                                class="h-px w-4 bg-zinc-700 transition-colors duration-300 group-hover/item:bg-zinc-400"
-                              />
-                              {item.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                  </a>
                 </div>
               ))
             }

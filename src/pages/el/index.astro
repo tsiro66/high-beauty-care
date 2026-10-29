@@ -1,8 +1,50 @@
 ---
 import Base from "../../layouts/Base.astro";
 import Hero from "../../components/Hero.astro";
+import StudioGallery from "../../components/StudioGallery.astro";
+import FeaturedVideo from "../../components/FeaturedVideo.astro";
+import CategoryCard from "../../components/CategoryCard.astro";
+import { ui } from "../../data/ui";
+import { getCategories } from "../../data/site";
+
+const t = ui["el"];
+const categories = getCategories("el");
 ---
 
-<Base>
+<Base
+  title="High Beauty Care — Στούντιο Αισθητικής & Ευεξίας"
+  description="Περιποιήσεις προσώπου, ολιστικές θεραπείες προσώπου και σώματος και εξειδικευμένες αγωγές κατά της κυτταρίτιδας στη Νέα Ιωνία. Προσωπική φροντίδα, κορυφαία προϊόντα, αποτελέσματα με διάρκεια."
+>
   <Hero />
+
+  <section id="services" class="border-t border-zinc-200">
+    <div class="mx-auto w-full max-w-7xl px-6 py-24 md:px-10 md:py-32">
+      <p
+        class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900"
+      >
+        <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+        {t.home.categoriesEyebrow}
+      </p>
+      <h2
+        class="mt-6 max-w-2xl font-display text-4xl leading-tight tracking-tight sm:text-5xl"
+      >
+        {t.home.categoriesHeading}
+      </h2>
+      <p class="mt-4 max-w-md text-base leading-relaxed text-zinc-600">
+        {t.home.categoriesSub}
+      </p>
+
+      <div
+        class="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4"
+      >
+        {categories.map((category, i) => (
+          <CategoryCard category={category} index={i} locale="el" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FeaturedVideo categorySlug="face" targetSlug="japanese-head-spa" />
+
+  <StudioGallery />
 </Base>

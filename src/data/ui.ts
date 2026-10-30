@@ -76,7 +76,7 @@ const en: UIStrings = {
     announcement: "Now accepting new appointments — book your first visit",
     dismiss: "Dismiss announcement",
     home: "Home",
-    about: "About",
+    about: "Our Space",
     contact: "Contact",
     services: "Services",
   },

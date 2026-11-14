@@ -64,14 +64,6 @@ const restLinks = [
       class="relative flex items-center gap-3 justify-self-start text-[11px] font-medium uppercase tracking-[0.25em]"
     >
       <a
-        href={getRelativeLocaleUrl("en", "/")}
-        aria-current={locale === "en" ? "true" : undefined}
-        class:list={[
-          "w-8 py-2 text-center transition-opacity hover:opacity-100",
-          locale === "en" ? "opacity-100" : "opacity-40",
-        ]}>EN</a
-      >
-      <a
         href={getRelativeLocaleUrl("el", "/")}
         aria-current={locale === "el" ? "true" : undefined}
         class:list={[
@@ -79,9 +71,17 @@ const restLinks = [
           locale === "el" ? "opacity-100" : "opacity-40",
         ]}>EL</a
       >
+      <a
+        href={getRelativeLocaleUrl("en", "/")}
+        aria-current={locale === "en" ? "true" : undefined}
+        class:list={[
+          "w-8 py-2 text-center transition-opacity hover:opacity-100",
+          locale === "en" ? "opacity-100" : "opacity-40",
+        ]}>EN</a
+      >
       <span
         aria-hidden="true"
-        class:list={["locale-indicator", locale === "el" && "is-el"]}></span>
+        class:list={["locale-indicator", locale === "en" && "is-en"]}></span>
     </nav>
 
     <!-- Logo -->
@@ -288,7 +288,7 @@ const restLinks = [
     transition: transform 0.35s cubic-bezier(0.77, 0, 0.18, 1);
   }
 
-  .locale-indicator.is-el {
+  .locale-indicator.is-en {
     transform: translateX(2.75rem);
   }
 

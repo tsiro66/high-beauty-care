@@ -9,12 +9,20 @@ interface Props {
 }
 
 const {
-  title = "High Beauty Care — Aesthetics & Wellness Studio",
-  description = "Facial treatments, holistic face and body therapies and specialized anti-cellulite programs in Nea Ionia. Personal care, premium products, lasting results.",
+  title = "High Beauty Care — Στούντιο Αισθητικής & Ευεξίας",
+  description = "Περιποιήσεις προσώπου, ολιστικές θεραπείες προσώπου και σώματος και εξειδικευμένες αγωγές κατά της κυτταρίτιδας στη Νέα Ιωνία. Προσωπική φροντίδα, κορυφαία προϊόντα, αποτελέσματα με διάρκεια.",
 } = Astro.props;
-const lang = Astro.currentLocale ?? "en";
+const lang = Astro.currentLocale ?? "el";
 const skipText =
   lang === "el" ? "Μετάβαση στο περιεχόμενο" : "Skip to content";
+const siteUrl = Astro.site ?? new URL("https://highbeautycare.gr");
+const path = Astro.url.pathname;
+const isEn = path.startsWith("/en");
+const enPath = isEn ? path : `/en${path === "/" ? "" : path}`;
+const elPath = isEn ? path.slice(3) || "/" : path;
+const canonicalUrl = new URL(path, siteUrl);
+const enUrl = new URL(enPath, siteUrl);
+const elUrl = new URL(elPath, siteUrl);
 ---
 
 <html lang={lang}>
@@ -26,10 +34,17 @@ const skipText =
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="el" href={elUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={elUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content="/og.jpg" />
+    <meta property="og:locale" content={lang === "el" ? "el_GR" : "en_US"} />
+    <meta property="og:locale:alternate" content={lang === "el" ? "en_US" : "el_GR"} />
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body class="min-h-screen bg-ivory text-zinc-900">

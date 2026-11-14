@@ -3,9 +3,9 @@ import Base from "../../layouts/Base.astro";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { ui } from "../../data/ui";
 import { contact } from "../../data/contact";
-import type { Locale } from "../../../data/site";
+import type { Locale } from "../../data/site";
 
-const locale: Locale = "el";
+const locale: Locale = "en";
 const t = ui[locale];
 const homeUrl = getRelativeLocaleUrl(locale, "/");
 ---

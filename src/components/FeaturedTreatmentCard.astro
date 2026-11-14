@@ -1,6 +1,7 @@
 ---
 import type { Locale } from "../data/site";
 import { ui } from "../data/ui";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import type { Category, Treatment } from "../data/types";
 
 interface Props {
@@ -12,10 +13,10 @@ interface Props {
 
 const { category, treatment, index, locale } = Astro.props;
 const t = ui[locale];
-const href =
-  locale === "el"
-    ? `/el/services/${category.slug}/${treatment.slug}/`
-    : `/services/${category.slug}/${treatment.slug}/`;
+const href = getRelativeLocaleUrl(
+  locale,
+  `/services/${category.slug}/${treatment.slug}/`,
+);
 const num = String(index + 1).padStart(2, "0");
 ---
 

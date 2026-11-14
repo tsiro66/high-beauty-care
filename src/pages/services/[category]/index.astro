@@ -3,18 +3,19 @@ import Base from "../../../layouts/Base.astro";
 import TreatmentCard from "../../../components/TreatmentCard.astro";
 import { getCategories, type Locale } from "../../../data/site";
 import { ui } from "../../../data/ui";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import type { Category } from "../../../data/types";
 
 export function getStaticPaths() {
-  return getCategories("en").map((category) => ({
+  return getCategories("el").map((category) => ({
     params: { category: category.slug },
-    props: { locale: "en" as Locale, category },
+    props: { locale: "el" as Locale, category },
   }));
 }
 
 const { locale, category } = Astro.props as { locale: Locale; category: Category };
 const t = ui[locale];
-const servicesUrl = locale === "el" ? "/el/services/" : "/services/";
+const servicesUrl = getRelativeLocaleUrl(locale, "/services/");
 ---
 
 <Base

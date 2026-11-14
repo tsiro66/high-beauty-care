@@ -3,13 +3,14 @@ import Base from "../../../layouts/Base.astro";
 import { contact } from "../../../data/contact";
 import { getCategories, getTreatmentNeighbours, locales, type Locale } from "../../../data/site";
 import { ui } from "../../../data/ui";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import type { Category, Treatment } from "../../../data/types";
 
 export function getStaticPaths() {
-  return getCategories("en").flatMap((category) =>
+  return getCategories("el").flatMap((category) =>
     category.treatments.map((treatment) => ({
       params: { category: category.slug, slug: treatment.slug },
-      props: { locale: "en" as Locale, category, treatment },
+      props: { locale: "el" as Locale, category, treatment },
     })),
   );
 }
@@ -21,14 +22,9 @@ const { locale, category, treatment } = Astro.props as {
 };
 const t = ui[locale];
 const { prev, next } = getTreatmentNeighbours(locale, category.slug, treatment.slug);
-const catHref =
-  locale === "el"
-    ? `/el/services/${category.slug}/`
-    : `/services/${category.slug}/`;
+const catHref = getRelativeLocaleUrl(locale, `/services/${category.slug}/`);
 const href = (slug: string) =>
-  locale === "el"
-    ? `/el/services/${category.slug}/${slug}/`
-    : `/services/${category.slug}/${slug}/`;
+  getRelativeLocaleUrl(locale, `/services/${category.slug}/${slug}/`);
 const num = String(category.treatments.findIndex((x) => x.slug === treatment.slug) + 1).padStart(2, "0");
 const hasAside = Boolean(treatment.protocol || treatment.note || treatment.contra);
 ---

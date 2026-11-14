@@ -7,11 +7,14 @@ import FeaturedTreatmentCard from "../components/FeaturedTreatmentCard.astro";
 import { ui } from "../data/ui";
 import { getFeaturedTreatments } from "../data/site";
 
-const t = ui["en"];
-const featured = getFeaturedTreatments("en");
+const t = ui["el"];
+const featured = getFeaturedTreatments("el");
 ---
 
-<Base>
+<Base
+  title="High Beauty Care — Στούντιο Αισθητικής & Ευεξίας"
+  description="Περιποιήσεις προσώπου, ολιστικές θεραπείες προσώπου και σώματος και εξειδικευμένες αγωγές κατά της κυτταρίτιδας στη Νέα Ιωνία. Προσωπική φροντίδα, κορυφαία προϊόντα, αποτελέσματα με διάρκεια."
+>
   <Hero />
 
   <section id="services" class="border-t border-zinc-200">
@@ -37,7 +40,7 @@ const featured = getFeaturedTreatments("en");
             category={category}
             treatment={treatment}
             index={i}
-            locale="en"
+            locale="el"
           />
         ))}
       </div>

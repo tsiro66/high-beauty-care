@@ -1,15 +1,15 @@
 ---
 import Base from "../../../layouts/Base.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
 import { getCategories, type Locale } from "../../../data/site";
 import { ui } from "../../../data/ui";
 
-const locale: Locale = "el";
+const locale: Locale = "en";
 const t = ui[locale];
 const categories = getCategories(locale);
-const baseUrl = locale === "el" ? "/el" : "";
-const categoryHref = (slug: string) => `${baseUrl}/services/${slug}/`;
+const categoryHref = (slug: string) => getRelativeLocaleUrl(locale, `/services/${slug}/`);
 const treatmentHref = (categorySlug: string, treatmentSlug: string) =>
-  `${baseUrl}/services/${categorySlug}/${treatmentSlug}/`;
+  getRelativeLocaleUrl(locale, `/services/${categorySlug}/${treatmentSlug}/`);
 const PREVIEW_COUNT = 5;
 ---
 

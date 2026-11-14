@@ -88,8 +88,10 @@ const t = ui[locale];
 
     <div class="mt-14">
       <a
-        href={contact.phoneHref}
-        class="inline-block bg-zinc-50 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-zinc-300"
+        href={contact.bookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block bg-ivory px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-white"
       >
         {t.home.bookCta}
       </a>

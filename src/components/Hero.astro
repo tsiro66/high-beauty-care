@@ -1,6 +1,8 @@
 ---
 import { ui } from "../data/ui";
 import type { Locale } from "../data/site";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { contact } from "../data/contact";
 import heroVideo from "../assets/media/headspa-hero.mp4";
 import heroPoster from "../assets/media/headspa-hero-poster.jpg";
 import heroVerticalVideo from "../assets/media/headspa-hero-vertical.mp4";
@@ -8,6 +10,7 @@ import heroVerticalPoster from "../assets/media/headspa-hero-vertical-poster.jpg
 
 const locale = (Astro.currentLocale ?? "en") as Locale;
 const t = ui[locale].home;
+const couponsUrl = getRelativeLocaleUrl(locale, "/coupons/");
 ---
 
 <section class="relative flex min-h-svh items-end overflow-hidden bg-stone-950">
@@ -85,13 +88,15 @@ const t = ui[locale].home;
 
       <div class="mt-9 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:items-center md:mt-10">
         <a
-          href="#contact"
+          href={contact.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           class="inline-flex w-full items-center justify-center border border-zinc-50/20 bg-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors hover:border-zinc-50/40 hover:bg-zinc-800 sm:w-auto"
         >
           {t.primaryCta}
         </a>
         <a
-          href="#services"
+          href={couponsUrl}
           class="inline-flex w-full items-center justify-center border border-zinc-50/50 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors hover:border-zinc-50 hover:bg-zinc-50/10 sm:w-auto"
         >
           {t.secondaryCta}

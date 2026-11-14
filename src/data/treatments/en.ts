@@ -3,7 +3,8 @@ import type { Category } from "../types";
 export const categories: Category[] = [
   {
     slug: "face",
-    title: "Face (Holistic & Aesthetic Treatments)",
+    title: "Face",
+    subtitle: "Holistic & Aesthetic Treatments",
     short:
       "Holistic and aesthetic facial treatments — from natural lifting to deep cleansing.",
     lead:
@@ -335,7 +336,8 @@ export const categories: Category[] = [
   },
   {
     slug: "massage",
-    title: "Massage (Holistic & Therapeutic)",
+    title: "Massage",
+    subtitle: "Holistic & Therapeutic",
     short: "Holistic and therapeutic massages for relaxation, relief and well-being.",
     lead:
       "From classic Swedish massage to specialized techniques for pregnancy and chronic pain, every massage is adapted to your needs and combined with natural and essential oils.",
@@ -453,7 +455,8 @@ export const categories: Category[] = [
   },
   {
     slug: "body",
-    title: "Body (Cellulite, Lipolysis & Firming Treatments)",
+    title: "Body",
+    subtitle: "Cellulite, Lipolysis & Firming Treatments",
     short:
       "Cellulite, lipolysis and firming treatments — natural methods and technology.",
     lead:
@@ -601,7 +604,8 @@ export const categories: Category[] = [
   },
   {
     slug: "hair-removal",
-    title: "Hair Removal (Wax & Halawa)",
+    title: "Hair Removal",
+    subtitle: "Wax & Halawa",
     short: "Wax and halawa hair removal — results that last 4–6 weeks.",
     lead:
       "Classic wax hair removal and natural halawa hair removal, for clean and velvety skin that lasts.",

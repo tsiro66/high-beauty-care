@@ -8,4 +8,7 @@ export const contact = {
   mapsUrl: "https://maps.google.com/?q=Nea+Ionia+Attica",
   instagram: "https://instagram.com/highbeautycare",
   instagramHandle: "@highbeautycare",
+  /** Online booking is handled externally through Treatwell */
+  bookingUrl:
+    "https://www.treatwell.gr/katasthma/high-beauty-care/?utm_source=google&utm_medium=rwg&authuser=1",
 };

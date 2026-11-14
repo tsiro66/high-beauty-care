@@ -1,0 +1,52 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { ui } from "../../data/ui";
+import { contact } from "../../data/contact";
+import type { Locale } from "../../../data/site";
+
+const locale: Locale = "el";
+const t = ui[locale];
+const homeUrl = getRelativeLocaleUrl(locale, "/");
+---
+
+<Base title={`${t.coupons.eyebrow} — High Beauty Care`} description={t.coupons.sub}>
+  <section class="border-t border-zinc-200">
+    <div class="mx-auto w-full max-w-7xl px-6 pb-24 pt-40 md:px-10 md:pb-32 md:pt-52">
+      <a
+        href={homeUrl}
+        class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 transition-colors hover:text-zinc-900"
+      >
+        ← {t.nav.home}
+      </a>
+
+      <p class="mt-10 flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900">
+        <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+        {t.coupons.eyebrow}
+      </p>
+      <h1 class="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
+        {t.coupons.heading}
+      </h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-zinc-600 md:text-lg">
+        {t.coupons.sub}
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center gap-4">
+        <a
+          href={contact.phoneHref}
+          class="inline-block bg-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors hover:bg-zinc-700"
+        >
+          {t.coupons.callCta}
+        </a>
+        <a
+          href={contact.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block border border-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-zinc-900 hover:text-zinc-50"
+        >
+          {t.coupons.bookCta}
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

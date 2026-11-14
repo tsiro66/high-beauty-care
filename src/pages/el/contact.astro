@@ -1,0 +1,257 @@
+---
+import Base from "../../layouts/Base.astro";
+import { ui } from "../../data/ui";
+import { contact } from "../../data/contact";
+
+const t = ui["el"];
+const cp = t.contactPage;
+
+const fieldClass =
+  "mt-4 block w-full border-b border-zinc-900/20 bg-transparent pb-3.5 text-lg leading-relaxed text-zinc-900 caret-zinc-900 transition-colors duration-300 focus:border-zinc-900 focus:outline-none";
+const labelClass =
+  "flex items-baseline gap-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-zinc-400 transition-colors duration-300 group-focus-within:text-zinc-900";
+const indexClass = "text-[9px] font-normal tracking-[0.3em] text-zinc-900/30";
+const infoLabelClass =
+  "text-[10px] font-semibold uppercase tracking-[0.3em] text-zinc-400";
+const linkClass =
+  "inline-block text-base text-zinc-900 underline decoration-zinc-900/25 underline-offset-[6px] transition-colors duration-300 hover:decoration-zinc-900";
+---
+
+<Base title={cp.title} description={cp.sub}>
+  <div class="bg-ivory">
+    <!-- Hero -->
+    <section>
+      <div class="mx-auto w-full max-w-7xl px-6 pb-16 pt-40 md:px-10 md:pb-20 md:pt-52">
+        <p
+          class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900"
+        >
+          <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+          {cp.eyebrow}
+        </p>
+        <h1
+          class="mt-10 max-w-5xl font-display text-balance text-5xl leading-[1.05] tracking-tight sm:text-7xl md:mt-14 md:text-8xl"
+        >
+          <Fragment set:html={cp.heading} />
+        </h1>
+        <div
+          class="mt-10 flex flex-col gap-8 md:mt-16 md:flex-row md:items-end md:justify-between"
+        >
+          <p class="max-w-xl text-lg leading-relaxed text-zinc-600">
+            {cp.sub}
+          </p>
+          <p
+            class="text-[11px] uppercase tracking-[0.25em] text-zinc-400 md:pb-1 md:text-right"
+          >
+            {contact.street}, {contact.city}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Details + form -->
+    <section class="border-t border-zinc-900/10">
+      <div
+        class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-y-16 px-6 py-16 md:px-10 md:py-24 lg:grid-cols-12 lg:gap-x-16 lg:gap-y-0"
+      >
+        <!-- Details -->
+        <div class="lg:col-span-4">
+          <p
+            class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900"
+          >
+            <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+            {cp.detailsHeading}
+          </p>
+
+          <div class="mt-10 divide-y divide-zinc-900/10 border-t border-zinc-900/10">
+            <div class="py-7">
+              <p class={infoLabelClass}>{t.contact.phone}</p>
+              <a
+                href={contact.phoneHref}
+                class="mt-3 block font-display text-3xl tracking-tight transition-colors duration-300 hover:text-zinc-500"
+              >
+                {contact.phoneDisplay}
+              </a>
+            </div>
+
+            <div class="py-7">
+              <p class={infoLabelClass}>{t.contact.email}</p>
+              <a href={`mailto:${contact.email}`} class={`mt-3 ${linkClass}`}>
+                {contact.email}
+              </a>
+            </div>
+
+            <div class="py-7">
+              <p class={infoLabelClass}>{t.contact.address}</p>
+              <p class="mt-3 text-base leading-relaxed text-zinc-600">
+                {contact.street}<br />{contact.city}
+              </p>
+              <a
+                href={contact.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-4 inline-block text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 transition-colors duration-300 hover:text-zinc-900"
+              >
+                Google Maps
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+
+            <div class="py-7">
+              <p class={infoLabelClass}>{t.contact.hours}</p>
+              <ul class="mt-3 space-y-1.5 text-base leading-relaxed text-zinc-600">
+                {t.contact.hoursValue.map((line) => <li>{line}</li>)}
+              </ul>
+            </div>
+
+            <div class="py-7">
+              <p class={infoLabelClass}>{t.contact.follow}</p>
+              <a
+                href={contact.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={`mt-3 ${linkClass}`}
+              >
+                Instagram — {contact.instagramHandle}
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="lg:col-span-8 lg:border-l lg:border-zinc-900/10 lg:pl-12 xl:pl-20">
+          <h2 class="font-display text-3xl tracking-tight md:text-4xl">
+            {cp.formHeading}
+          </h2>
+
+          <form id="contact-form" class="mt-10 md:mt-14">
+            <div class="grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2">
+              <div class="group">
+                <label for="cf-name" class={labelClass}>
+                  <span aria-hidden="true" class={indexClass}>01</span>
+                  {cp.name} <span aria-hidden="true" class="text-zinc-900">*</span>
+                </label>
+                <input
+                  id="cf-name"
+                  name="name"
+                  type="text"
+                  required
+                  autocomplete="name"
+                  class={fieldClass}
+                />
+              </div>
+
+              <div class="group">
+                <label for="cf-email" class={labelClass}>
+                  <span aria-hidden="true" class={indexClass}>02</span>
+                  {cp.email} <span aria-hidden="true" class="text-zinc-900">*</span>
+                </label>
+                <input
+                  id="cf-email"
+                  name="email"
+                  type="email"
+                  required
+                  autocomplete="email"
+                  class={fieldClass}
+                />
+              </div>
+
+              <div class="group">
+                <label for="cf-phone" class={labelClass}>
+                  <span aria-hidden="true" class={indexClass}>03</span>
+                  {cp.phone}
+                </label>
+                <input
+                  id="cf-phone"
+                  name="phone"
+                  type="tel"
+                  autocomplete="tel"
+                  class={fieldClass}
+                />
+              </div>
+
+              <div class="group">
+                <label for="cf-interest" class={labelClass}>
+                  <span aria-hidden="true" class={indexClass}>04</span>
+                  {cp.interest}
+                </label>
+                <input
+                  id="cf-interest"
+                  name="interest"
+                  type="text"
+                  class={fieldClass}
+                />
+              </div>
+            </div>
+
+            <div class="group mt-10">
+              <label for="cf-message" class={labelClass}>
+                <span aria-hidden="true" class={indexClass}>05</span>
+                {cp.message} <span aria-hidden="true" class="text-zinc-900">*</span>
+              </label>
+              <textarea
+                id="cf-message"
+                name="message"
+                required
+                rows="7"
+                class="mt-4 block w-full resize-none border border-zinc-900/20 bg-transparent p-5 text-lg leading-relaxed text-zinc-900 caret-zinc-900 transition-colors duration-300 focus:border-zinc-900 focus:outline-none"
+              ></textarea>
+            </div>
+
+            <div
+              class="mt-12 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between"
+            >
+              <button
+                type="submit"
+                class="group/btn inline-flex w-full items-center justify-center gap-4 bg-zinc-900 px-10 py-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors duration-300 hover:bg-zinc-800 sm:w-auto"
+              >
+                {cp.send}
+                <span
+                  aria-hidden="true"
+                  class="transition-transform duration-300 group-hover/btn:translate-x-1.5">→</span
+                >
+              </button>
+              <p class="text-xs leading-relaxed text-zinc-500 sm:max-w-[18rem] sm:text-right">
+                {cp.replyNote}
+              </p>
+            </div>
+            <p class="mt-8 text-[10px] uppercase tracking-[0.3em] text-zinc-400">
+              {cp.requiredNote}
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Closing statement — merges into the dark footer -->
+  <section class="bg-zinc-950 text-zinc-50">
+    <div
+      class="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-20 md:px-10 md:py-28 lg:flex-row lg:items-center lg:justify-between"
+    >
+      <p
+        class="max-w-2xl font-display text-3xl leading-tight tracking-tight sm:text-4xl md:text-5xl"
+      >
+        {t.home.heading}
+      </p>
+      <a
+        href={contact.bookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-block shrink-0 bg-ivory px-10 py-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors duration-300 hover:bg-white"
+      >
+        {t.home.bookCta}
+        <span
+          aria-hidden="true"
+          class="inline-block transition-transform duration-300 group-hover:translate-x-1.5">→</span
+        >
+      </a>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Submission will be wired to Resend later — prevent native form submit for now.
+  document
+    .getElementById("contact-form")
+    ?.addEventListener("submit", (event) => event.preventDefault());
+</script>

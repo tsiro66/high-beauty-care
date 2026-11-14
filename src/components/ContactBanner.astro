@@ -1,0 +1,36 @@
+---
+import { ui } from "../data/ui";
+import type { Locale } from "../data/site";
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+const locale = (Astro.currentLocale ?? "en") as Locale;
+const t = ui[locale];
+const contactUrl = getRelativeLocaleUrl(locale, "/contact/");
+---
+
+<section id="contact" class="border-t border-zinc-900 bg-zinc-900 text-zinc-50">
+  <div
+    class="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-20 md:px-10 md:py-24 lg:flex-row lg:items-center lg:justify-between"
+  >
+    <div>
+      <p
+        class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-400"
+      >
+        <span aria-hidden="true" class="h-px w-12 bg-zinc-400"></span>
+        {t.home.contactEyebrow}
+      </p>
+      <h2 class="mt-4 font-display text-3xl tracking-tight sm:text-4xl md:text-5xl">
+        {t.home.contactHeading}
+      </h2>
+      <p class="mt-4 max-w-md text-base leading-relaxed text-zinc-400">
+        {t.home.contactSub}
+      </p>
+    </div>
+    <a
+      href={contactUrl}
+      class="inline-block shrink-0 bg-ivory px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-white"
+    >
+      {t.home.contactCta}
+    </a>
+  </div>
+</section>

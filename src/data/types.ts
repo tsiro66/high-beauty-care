@@ -31,6 +31,8 @@ export type Treatment = {
 export type Category = {
   slug: string;
   title: string;
+  /** Descriptor shown as a subtitle on cards and category page */
+  subtitle?: string;
   /** Short one-liner used on category cards */
   short: string;
   /** Intro paragraph shown at the top of the category page */

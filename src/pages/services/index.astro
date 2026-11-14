@@ -1,0 +1,95 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCategories, type Locale } from "../../data/site";
+import { ui } from "../../data/ui";
+
+const locale: Locale = "en";
+const t = ui[locale];
+const categories = getCategories(locale);
+const baseUrl = locale === "el" ? "/el" : "";
+const categoryHref = (slug: string) => `${baseUrl}/services/${slug}/`;
+const treatmentHref = (categorySlug: string, treatmentSlug: string) =>
+  `${baseUrl}/services/${categorySlug}/${treatmentSlug}/`;
+const PREVIEW_COUNT = 5;
+---
+
+<Base title={`${t.services.eyebrow} — High Beauty Care`} description={t.services.sub}>
+  <section class="border-t border-zinc-200">
+    <div class="mx-auto w-full max-w-7xl px-6 pb-16 pt-40 md:px-10 md:pb-20 md:pt-52">
+      <p class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900">
+        <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+        {t.services.eyebrow}
+      </p>
+      <h1 class="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
+        {t.services.heading}
+      </h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-zinc-600 md:text-lg">
+        {t.services.sub}
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto w-full max-w-7xl px-6 pb-24 md:px-10 md:pb-32">
+    <div class="grid grid-cols-1 border-b border-zinc-200 md:grid-cols-2">
+      {categories.map((category, i) => {
+        const preview = category.treatments.slice(0, PREVIEW_COUNT);
+        return (
+          <article
+            class:list={[
+              "border-t border-zinc-200 py-10 md:py-14",
+              i % 2 === 0
+                ? "md:pr-10 lg:pr-14"
+                : "md:border-l md:pl-10 lg:pl-14",
+            ]}
+          >
+            <span class="font-sans text-[11px] tracking-[0.3em] text-zinc-400">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <h2 class="mt-4 font-display text-3xl leading-tight tracking-tight md:text-4xl">
+              {category.title}
+            </h2>
+            {category.subtitle && (
+              <p class="mt-2 text-xs uppercase tracking-[0.2em] text-zinc-500">
+                {category.subtitle}
+              </p>
+            )}
+            <p class="mt-4 text-sm leading-relaxed text-zinc-600">
+              {category.short}
+            </p>
+
+            <ul class="mt-8 border-t border-zinc-200">
+              {preview.map((treatment) => (
+                <li class="border-b border-zinc-200 last:border-b-0">
+                  <a
+                    href={treatmentHref(category.slug, treatment.slug)}
+                    class="group flex items-center justify-between gap-4 py-3"
+                  >
+                    <span class="text-sm text-zinc-900 transition-transform duration-300 group-hover:translate-x-1 md:text-base">
+                      {treatment.title}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="text-zinc-400 transition-all duration-300 group-hover:translate-x-1 group-hover:text-zinc-900"
+                    >
+                      →
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={categoryHref(category.slug)}
+              class="mt-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:text-zinc-500"
+            >
+              {category.treatments.length > preview.length
+                ? t.services.viewAll(category.treatments.length)
+                : t.category.treatmentsCount(category.treatments.length)}
+              <span aria-hidden="true">→</span>
+            </a>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</Base>

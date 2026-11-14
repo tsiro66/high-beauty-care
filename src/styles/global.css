@@ -1,10 +1,13 @@
 @import "tailwindcss";
 @import "@fontsource-variable/manrope";
 @import "@fontsource-variable/brygada-1918";
+@import "@fontsource-variable/brygada-1918/wght-italic.css";
 
 @theme {
   --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Brygada 1918 Variable", Georgia, serif;
+  --color-ivory: #f8f3ea;
+  --color-sand: #f1ead9;
 }
 
 body {

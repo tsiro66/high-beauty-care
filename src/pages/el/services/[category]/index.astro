@@ -14,17 +14,17 @@ export function getStaticPaths() {
 
 const { locale, category } = Astro.props as { locale: Locale; category: Category };
 const t = ui[locale];
-const homeUrl = locale === "el" ? "/el/" : "/";
+const servicesUrl = locale === "el" ? "/el/services/" : "/services/";
 ---
 
 <Base
-  title={`${category.title} — High Beauty Care`}
+  title={category.subtitle ? `${category.title} (${category.subtitle}) — High Beauty Care` : `${category.title} — High Beauty Care`}
   description={category.short}
 >
   <section class="border-t border-zinc-200">
     <div class="mx-auto w-full max-w-7xl px-6 pb-20 pt-40 md:px-10 md:pb-28 md:pt-52">
       <a
-        href={homeUrl}
+        href={servicesUrl}
         class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 transition-colors hover:text-zinc-900"
       >
         ← {t.category.allServices}
@@ -37,6 +37,11 @@ const homeUrl = locale === "el" ? "/el/" : "/";
       <h1 class="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
         {category.title}
       </h1>
+      {category.subtitle && (
+        <p class="mt-4 max-w-3xl text-sm uppercase tracking-[0.25em] text-zinc-500 md:text-base">
+          {category.subtitle}
+        </p>
+      )}
       {category.lead && (
         <p class="mt-6 max-w-xl text-base leading-relaxed text-zinc-600 md:text-lg">
           {category.lead}

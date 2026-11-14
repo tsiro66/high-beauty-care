@@ -2,13 +2,13 @@
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import StudioGallery from "../components/StudioGallery.astro";
-import FeaturedVideo from "../components/FeaturedVideo.astro";
-import CategoryCard from "../components/CategoryCard.astro";
+import ContactBanner from "../components/ContactBanner.astro";
+import FeaturedTreatmentCard from "../components/FeaturedTreatmentCard.astro";
 import { ui } from "../data/ui";
-import { getCategories } from "../data/site";
+import { getFeaturedTreatments } from "../data/site";
 
 const t = ui["en"];
-const categories = getCategories("en");
+const featured = getFeaturedTreatments("en");
 ---
 
 <Base>
@@ -20,28 +20,31 @@ const categories = getCategories("en");
         class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900"
       >
         <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
-        {t.home.categoriesEyebrow}
+        {t.home.featuredTreatmentsEyebrow}
       </p>
       <h2
         class="mt-6 max-w-2xl font-display text-4xl leading-tight tracking-tight sm:text-5xl"
       >
-        {t.home.categoriesHeading}
+        {t.home.featuredTreatmentsHeading}
       </h2>
       <p class="mt-4 max-w-md text-base leading-relaxed text-zinc-600">
-        {t.home.categoriesSub}
+        {t.home.featuredTreatmentsSub}
       </p>
 
-      <div
-        class="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4"
-      >
-        {categories.map((category, i) => (
-          <CategoryCard category={category} index={i} locale="en" />
+      <div class="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+        {featured.map(({ category, treatment }, i) => (
+          <FeaturedTreatmentCard
+            category={category}
+            treatment={treatment}
+            index={i}
+            locale="en"
+          />
         ))}
       </div>
     </div>
   </section>
 
-  <FeaturedVideo categorySlug="face" targetSlug="japanese-head-spa" />
-
   <StudioGallery />
+
+  <ContactBanner />
 </Base>

@@ -24,6 +24,30 @@ export function getTreatment(
   return { category, treatment };
 }
 
+/** Treatments featured on the homepage, in display order */
+const featuredTreatmentSlugs = [
+  "japanese-head-spa",
+  "lymphatic-body-massage",
+  "relaxing-massage",
+];
+
+export function getFeaturedTreatments(
+  locale: Locale,
+): { category: Category; treatment: Treatment }[] {
+  return featuredTreatmentSlugs
+    .map((slug) => {
+      for (const category of getCategories(locale)) {
+        const treatment = category.treatments.find((t) => t.slug === slug);
+        if (treatment) return { category, treatment };
+      }
+      return undefined;
+    })
+    .filter(
+      (item): item is { category: Category; treatment: Treatment } =>
+        item !== undefined,
+    );
+}
+
 /** Previous / next treatment within the same category */
 export function getTreatmentNeighbours(
   locale: Locale,

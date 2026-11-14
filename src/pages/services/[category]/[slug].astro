@@ -30,6 +30,7 @@ const href = (slug: string) =>
     ? `/el/services/${category.slug}/${slug}/`
     : `/services/${category.slug}/${slug}/`;
 const num = String(category.treatments.findIndex((x) => x.slug === treatment.slug) + 1).padStart(2, "0");
+const hasAside = Boolean(treatment.protocol || treatment.note || treatment.contra);
 ---
 
 <Base title={`${treatment.pageTitle} — High Beauty Care`} description={treatment.tagline}>
@@ -55,7 +56,9 @@ const num = String(category.treatments.findIndex((x) => x.slug === treatment.slu
 
       <div class="mt-10 flex flex-wrap items-center gap-4">
         <a
-          href={contact.phoneHref}
+          href={contact.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           class="inline-block bg-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors hover:bg-zinc-700"
         >
           {t.treatment.bookCta}
@@ -71,13 +74,14 @@ const num = String(category.treatments.findIndex((x) => x.slug === treatment.slu
 
   <article class="border-t border-zinc-200">
     <div class="mx-auto grid w-full max-w-7xl grid-cols-1 gap-12 px-6 py-20 md:px-10 md:py-28 lg:grid-cols-3 lg:gap-16">
-      <div class="lg:col-span-2">
+      <div class={hasAside ? "lg:col-span-2" : "lg:col-span-3"}>
         <p class="max-w-2xl text-lg leading-relaxed text-zinc-700">
           {treatment.description}
         </p>
       </div>
 
-      <aside class="space-y-10 lg:order-first">
+      {hasAside && (
+        <aside class="space-y-10 lg:order-first">
         {treatment.protocol && (
           <div class="border border-zinc-900 p-6">
             <p class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400">
@@ -102,7 +106,8 @@ const num = String(category.treatments.findIndex((x) => x.slug === treatment.slu
             <p class="mt-3 text-sm leading-relaxed text-zinc-500">{treatment.contra}</p>
           </div>
         )}
-      </aside>
+        </aside>
+      )}
     </div>
   </article>
 
@@ -125,7 +130,7 @@ const num = String(category.treatments.findIndex((x) => x.slug === treatment.slu
   )}
 
   {treatment.benefits && (
-    <section class="border-t border-zinc-200 bg-zinc-50">
+    <section class="border-t border-zinc-200 bg-sand">
       <div class="mx-auto w-full max-w-7xl px-6 py-20 md:px-10 md:py-24">
         <h2 class="font-display text-3xl tracking-tight md:text-4xl">
           {t.treatment.benefits}
@@ -206,4 +211,26 @@ const num = String(category.treatments.findIndex((x) => x.slug === treatment.slu
       </div>
     </div>
   </nav>
+
+  <section class="border-t border-zinc-900 bg-zinc-900 text-zinc-50">
+    <div class="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-20 md:px-10 md:py-24 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <p class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-400">
+          <span aria-hidden="true" class="h-px w-12 bg-zinc-400"></span>
+          {t.treatment.closingEyebrow}
+        </p>
+        <h2 class="mt-4 font-display text-3xl tracking-tight sm:text-4xl">
+          {t.treatment.closingHeading}
+        </h2>
+      </div>
+      <a
+        href={contact.bookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block shrink-0 bg-ivory px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-white"
+      >
+        {t.treatment.bookCta}
+      </a>
+    </div>
+  </section>
 </Base>

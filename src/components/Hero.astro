@@ -4,8 +4,10 @@ import type { Locale } from "../data/site";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { contact } from "../data/contact";
 import heroVideo from "../assets/media/headspa-hero.mp4";
+import heroVideoWebm from "../assets/media/headspa-hero.webm";
 import heroPoster from "../assets/media/headspa-hero-poster.jpg";
 import heroVerticalVideo from "../assets/media/headspa-hero-vertical.mp4";
+import heroVerticalVideoWebm from "../assets/media/headspa-hero-vertical.webm";
 import heroVerticalPoster from "../assets/media/headspa-hero-vertical-poster.jpg";
 
 const locale = (Astro.currentLocale ?? "en") as Locale;
@@ -14,12 +16,15 @@ const couponsUrl = getRelativeLocaleUrl(locale, "/coupons/");
 ---
 
 <section class="relative flex min-h-svh items-end overflow-hidden bg-stone-950">
-  <!-- Portrait video: mobile only -->
+  <!-- Portrait video: mobile only. Sources are attached by the script below
+       (data-src) so only the video matching the current viewport is ever
+       downloaded — with src + autoplay on both, each visitor fetched and
+       played both files (~25 MB), starving the visible one into stalling. -->
   <video
     class="hero-video absolute inset-0 h-full w-full object-cover object-[50%_40%] md:hidden"
-    src={heroVerticalVideo}
+    data-src-mp4={heroVerticalVideo}
+    data-src-webm={heroVerticalVideoWebm}
     poster={heroVerticalPoster.src}
-    autoplay
     muted
     loop
     playsinline
@@ -31,9 +36,9 @@ const couponsUrl = getRelativeLocaleUrl(locale, "/coupons/");
   <!-- Landscape video: tablet/desktop -->
   <video
     class="hero-video absolute inset-0 hidden h-full w-full object-cover md:block"
-    src={heroVideo}
+    data-src-mp4={heroVideo}
+    data-src-webm={heroVideoWebm}
     poster={heroPoster.src}
-    autoplay
     muted
     loop
     playsinline
@@ -155,21 +160,62 @@ const couponsUrl = getRelativeLocaleUrl(locale, "/coupons/");
 
 <script>
   /* Re-run on every ClientRouter navigation (astro:page-load also fires on
-     the initial load): kick playback if the browser's autoplay policy
-     blocked the autoplay attribute. */
+     the initial load). Exactly one hero video is loaded and played — the one
+     matching the current breakpoint; the other is kept unloaded so it can't
+     compete for bandwidth (the usual cause of the hero freezing mid-loop). */
   function initHero() {
     const videos = document.querySelectorAll<HTMLVideoElement>(".hero-video");
     if (videos.length === 0) return;
 
-    videos.forEach((v) => v.play().catch(() => {}));
+    /* videos[0]: portrait, videos[1]: landscape — matches the md:hidden /
+       md:block classes in the markup. */
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const activeIndex = () => (desktop.matches ? 1 : 0);
 
-    const kick = () => {
-      videos.forEach((v) => {
+    function activate() {
+      /* VP9/WebM is ~40% smaller at equal quality; older Safari (<17) gets
+         the H.264 mp4. */
+      const webm =
+        (videos[0]?.canPlayType('video/webm; codecs="vp9"') ?? "") !== "";
+      const active = activeIndex();
+      videos.forEach((v, i) => {
+        if (i === active) {
+          if (!v.getAttribute("src"))
+            v.src = (webm ? v.dataset.srcWebm : v.dataset.srcMp4) ?? "";
+          if (v.paused) v.play().catch(() => {});
+        } else if (v.getAttribute("src")) {
+          /* Drop the hidden video and abort any in-flight fetch for it. */
+          v.removeAttribute("src");
+          v.load();
+        }
+      });
+    }
+
+    /* Recovery nets: Safari sometimes leaves muted looping videos paused
+       after a network stall, a loop wrap, or a tab switch. */
+    videos.forEach((v) => {
+      v.addEventListener("ended", () => v.play().catch(() => {}));
+      v.addEventListener("canplay", () => {
         if (v.paused) v.play().catch(() => {});
       });
+    });
+
+    /* Kick playback if autoplay was blocked (e.g. iOS Low Power Mode) or if
+       the browser paused the video behind our back. */
+    const kick = () => {
+      const v = videos[activeIndex()];
+      if (v?.getAttribute("src") && v.paused) v.play().catch(() => {});
     };
     window.addEventListener("pointerdown", kick, { once: true, passive: true });
     window.addEventListener("keydown", kick, { once: true });
+    window.addEventListener("pageshow", kick, { once: true });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") kick();
+    });
+
+    activate();
+    /* Rotating a phone/tablet across the md boundary swaps the active video. */
+    desktop.addEventListener("change", activate);
   }
 
   document.addEventListener("astro:page-load", initHero);

@@ -21,9 +21,8 @@ const href = getRelativeLocaleUrl(locale, `/services/${categorySlug}/${targetSlu
     <div class="relative aspect-[4/5] overflow-hidden lg:aspect-auto lg:h-full">
       <video
         class="featured-video absolute inset-0 h-full w-full object-cover object-center"
-        src={video}
+        data-src={video}
         poster={poster.src}
-        autoplay
         muted
         loop
         playsinline
@@ -53,6 +52,34 @@ const href = getRelativeLocaleUrl(locale, `/services/${categorySlug}/${targetSlu
     </div>
   </div>
 </section>
+
+<script>
+  /* Only load and play while scrolled into view: with autoplay alone this
+     streamed below the fold on the homepage alongside the hero videos,
+     competing for the same bandwidth. Re-run on ClientRouter navigations. */
+  function initFeaturedVideo() {
+    const video = document.querySelector<HTMLVideoElement>(".featured-video");
+    if (!video) return;
+
+    if (!video.getAttribute("src")) video.src = video.dataset.src ?? "";
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(video);
+  }
+
+  document.addEventListener("astro:page-load", initFeaturedVideo);
+</script>
 
 <style>
   @media (prefers-reduced-motion: reduce) {

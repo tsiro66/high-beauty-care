@@ -4,11 +4,14 @@ import Hero from "../components/Hero.astro";
 import StudioGallery from "../components/StudioGallery.astro";
 import ContactBanner from "../components/ContactBanner.astro";
 import FeaturedTreatmentCard from "../components/FeaturedTreatmentCard.astro";
+import ReviewsSection from "../components/ReviewsSection.astro";
 import { ui } from "../data/ui";
 import { getFeaturedTreatments } from "../data/site";
+import { getGoogleReviews } from "../data/reviews";
 
 const t = ui["el"];
 const featured = getFeaturedTreatments("el");
+const googleReviews = await getGoogleReviews("el");
 ---
 
 <Base
@@ -48,6 +51,8 @@ const featured = getFeaturedTreatments("el");
   </section>
 
   <StudioGallery />
+
+  {googleReviews && <ReviewsSection reviews={googleReviews} />}
 
   <ContactBanner />
 </Base>

@@ -54,6 +54,10 @@ export type UIStrings = {
     sub: string;
     callCta: string;
     bookCta: string;
+    stubEyebrow: string;
+    stubLine: string;
+    stubFine: string;
+    soon: string;
   };
   treatment: {
     eyebrow: string;
@@ -92,6 +96,12 @@ export type UIStrings = {
     follow: string;
     hoursValue: string[];
   };
+  reviews: {
+    eyebrow: string;
+    heading: string;
+    aggregateSuffix: string;
+    readAll: string;
+  };
   contactPage: {
     title: string;
     eyebrow: string;
@@ -112,6 +122,7 @@ export type UIStrings = {
     rights: string;
     services: string;
     tagline: string;
+    findUs: string;
   };
 };
 
@@ -174,6 +185,10 @@ const en: UIStrings = {
     sub: "We are preparing gift coupons you will be able to buy for yourself or a friend — redeemable for any treatment in our studio. Until then, call us to arrange yours or book your visit online.",
     callCta: "Call us",
     bookCta: "Book online",
+    stubEyebrow: "Gift Coupon",
+    stubLine: "One treatment of your choice",
+    stubFine: "No expiration date",
+    soon: "Soon",
   },
   treatment: {
     eyebrow: "Treatment",
@@ -197,7 +212,13 @@ const en: UIStrings = {
     phone: "Phone",
     email: "Email",
     follow: "Follow",
-    hoursValue: ["Mon – Fri: 10:00 – 20:00", "Saturday: 10:00 – 15:00", "Sunday: closed"],
+    hoursValue: ["Tue – Fri: 10:00 – 20:00", "Saturday: 9:00 – 17:00", "Sunday & Monday: closed"],
+  },
+  reviews: {
+    eyebrow: "Reviews",
+    heading: "What our clients say",
+    aggregateSuffix: "reviews on Google",
+    readAll: "Read all reviews on Google",
   },
   contactPage: {
     title: "Contact — High Beauty Care",
@@ -265,6 +286,7 @@ const en: UIStrings = {
     rights: "All rights reserved.",
     services: "Services",
     tagline: "Aesthetics & Wellness Studio — Nea Ionia, Attica",
+    findUs: "Find us",
   },
 };
 
@@ -327,6 +349,10 @@ const el: UIStrings = {
     sub: "Ετοιμάζουμε κουπόνια δώρου που θα μπορείτε να αγοράσετε για εσάς ή για έναν αγαπημένο — με αξιοποίηση σε οποιαδήποτε θεραπεία του χώρου μας. Στο μεταξύ, καλέστε μας να τα κανονίσουμε ή κλείστε online την επίσκεψή σας.",
     callCta: "Καλέστε μας",
     bookCta: "Κλείστε online",
+    stubEyebrow: "Κουπόνι Δώρου",
+    stubLine: "Μια θεραπεία της επιλογής σας",
+    stubFine: "Χωρίς ημερομηνία λήξης",
+    soon: "Σύντομα",
   },
   treatment: {
     eyebrow: "Θεραπεία",
@@ -350,7 +376,13 @@ const el: UIStrings = {
     phone: "Τηλέφωνο",
     email: "Email",
     follow: "Follow",
-    hoursValue: ["Δευτ. – Παρ.: 10:00 – 20:00", "Σάββατο: 10:00 – 15:00", "Κυριακή: κλειστά"],
+    hoursValue: ["Τρίτη – Παρ.: 10:00 – 20:00", "Σάββατο: 9:00 – 17:00", "Κυριακή & Δευτέρα: κλειστά"],
+  },
+  reviews: {
+    eyebrow: "Κριτικές",
+    heading: "Τι λένε οι πελάτες μας",
+    aggregateSuffix: "κριτικές στο Google",
+    readAll: "Δείτε όλες τις κριτικές στο Google",
   },
   contactPage: {
     title: "Επικοινωνία — High Beauty Care",
@@ -418,6 +450,7 @@ const el: UIStrings = {
     rights: "Με επιφύλαξη παντός δικαιώματος.",
     services: "Υπηρεσίες",
     tagline: "Στούντιο Αισθητικής & Ευεξίας — Νέα Ιωνία, Αττική",
+    findUs: "Βρείτε μας",
   },
 };
 

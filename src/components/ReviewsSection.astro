@@ -1,0 +1,113 @@
+---
+import { ui } from "../data/ui";
+import { contact } from "../data/contact";
+import type { GoogleReviews } from "../data/reviews";
+import type { Locale } from "../data/site";
+
+interface Props {
+  reviews: GoogleReviews;
+}
+
+const { reviews } = Astro.props;
+const locale = (Astro.currentLocale ?? "en") as Locale;
+const t = ui[locale];
+const shown = reviews.reviews.slice(0, 3);
+const stars = (rating: number) => "★★★★★".slice(0, Math.round(rating));
+---
+
+<section class="border-t border-zinc-200">
+  <div class="mx-auto w-full max-w-7xl px-6 py-24 md:px-10 md:py-32">
+    <p
+      class="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900"
+    >
+      <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+      {t.reviews.eyebrow}
+    </p>
+
+    <div
+      class="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
+    >
+      <h2 class="max-w-2xl font-display text-4xl leading-tight tracking-tight sm:text-5xl">
+        {t.reviews.heading}
+      </h2>
+      <a
+        href={contact.mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex shrink-0 items-baseline gap-3"
+      >
+        <span class="font-display text-5xl tracking-tight">
+          {reviews.rating.toFixed(1).replace(".", ",")}
+        </span>
+        <span class="text-sm leading-snug text-zinc-500">
+          <span
+            aria-hidden="true"
+            class="block text-base tracking-[0.2em] text-zinc-900"
+          >
+            {stars(reviews.rating)}
+          </span>
+          {reviews.total}
+          {t.reviews.aggregateSuffix}
+        </span>
+      </a>
+    </div>
+
+    <div
+      class="mt-14 grid grid-cols-1 divide-y divide-zinc-900/10 border-t border-zinc-900/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+    >
+      {
+        shown.map((review) => (
+          <figure class="py-8 sm:px-8 sm:first:pl-0 sm:last:pr-0">
+            <p aria-hidden="true" class="text-sm tracking-[0.25em] text-zinc-900">
+              {stars(review.rating)}
+            </p>
+            <blockquote class="mt-5 line-clamp-6 text-base leading-relaxed text-zinc-600">
+              “{review.text}”
+            </blockquote>
+            <figcaption class="mt-6 flex items-center gap-3">
+              {review.authorPhoto && (
+                <img
+                  src={review.authorPhoto}
+                  alt=""
+                  width="36"
+                  height="36"
+                  loading="lazy"
+                  class="h-9 w-9 rounded-full object-cover"
+                />
+              )}
+              <span class="text-sm">
+                {review.authorUri ? (
+                  <a
+                    href={review.authorUri}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="font-medium text-zinc-900 transition-colors hover:text-zinc-500"
+                  >
+                    {review.author}
+                  </a>
+                ) : (
+                  <span class="font-medium text-zinc-900">{review.author}</span>
+                )}
+                {review.relativeTime && (
+                  <span class="block text-zinc-400">{review.relativeTime}</span>
+                )}
+              </span>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 border-t border-zinc-900/10 pt-8">
+      <a
+        href={contact.mapsUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 transition-colors duration-300 hover:text-zinc-900"
+      >
+        {t.reviews.readAll}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>

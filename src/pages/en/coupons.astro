@@ -12,41 +12,133 @@ const homeUrl = getRelativeLocaleUrl(locale, "/");
 
 <Base title={`${t.coupons.eyebrow} — High Beauty Care`} description={t.coupons.sub}>
   <section class="border-t border-zinc-200">
-    <div class="mx-auto w-full max-w-7xl px-6 pb-24 pt-40 md:px-10 md:pb-32 md:pt-52">
-      <a
-        href={homeUrl}
-        class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 transition-colors hover:text-zinc-900"
-      >
-        ← {t.nav.home}
-      </a>
-
-      <p class="mt-10 flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900">
-        <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
-        {t.coupons.eyebrow}
-      </p>
-      <h1 class="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-7xl">
-        {t.coupons.heading}
-      </h1>
-      <p class="mt-6 max-w-xl text-base leading-relaxed text-zinc-600 md:text-lg">
-        {t.coupons.sub}
-      </p>
-
-      <div class="mt-10 flex flex-wrap items-center gap-4">
+    <div
+      class="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-16 px-6 pb-24 pt-40 md:px-10 md:pb-32 md:pt-52 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12"
+    >
+      <div>
         <a
-          href={contact.phoneHref}
-          class="inline-block bg-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors hover:bg-zinc-700"
+          href={homeUrl}
+          class="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 transition-colors hover:text-zinc-900"
         >
-          {t.coupons.callCta}
+          ← {t.nav.home}
         </a>
-        <a
-          href={contact.bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-block border border-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-zinc-900 hover:text-zinc-50"
+
+        <p class="mt-10 flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.35em] text-zinc-900">
+          <span aria-hidden="true" class="h-px w-12 bg-zinc-900"></span>
+          {t.coupons.eyebrow}
+        </p>
+        <h1 class="mt-6 max-w-3xl font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+          {t.coupons.heading}
+        </h1>
+        <p class="mt-6 max-w-xl text-base leading-relaxed text-zinc-600 md:text-lg">
+          {t.coupons.sub}
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center gap-4">
+          <a
+            href={contact.phoneHref}
+            class="inline-block bg-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-50 transition-colors hover:bg-zinc-700"
+          >
+            {t.coupons.callCta}
+          </a>
+          <a
+            href={contact.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-block border border-zinc-900 px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-900 transition-colors hover:bg-zinc-900 hover:text-zinc-50"
+          >
+            {t.coupons.bookCta}
+          </a>
+        </div>
+      </div>
+
+      <!-- Decorative gift-coupon stub -->
+      <div class="relative mx-auto w-full max-w-md lg:max-w-none" aria-hidden="true">
+        <div
+          class="absolute inset-x-6 inset-y-4 -rotate-3 border border-zinc-300 bg-sand"
+        ></div>
+        <div
+          class="coupon-card relative rotate-2 transition-transform duration-500 hover:rotate-0"
         >
-          {t.coupons.bookCta}
-        </a>
+          <div
+            class="coupon-half coupon-half-top border-x border-t border-zinc-300 bg-white px-8 pb-7 pt-8"
+          >
+            <p
+              class="text-[10px] font-semibold uppercase tracking-[0.35em] text-zinc-400"
+            >
+              {t.coupons.stubEyebrow}
+            </p>
+            <p class="mt-3 font-display text-2xl leading-none text-zinc-900 sm:text-3xl">
+              High Beauty Care
+            </p>
+            <p class="mt-2 text-sm text-zinc-500">{t.coupons.stubLine}</p>
+          </div>
+          <div
+            class="coupon-half coupon-half-bottom relative flex items-center justify-between gap-6 border-x border-b border-zinc-300 bg-white px-8 py-6"
+          >
+            <span
+              aria-hidden="true"
+              class="absolute inset-x-0 top-0 border-t border-dashed border-zinc-300"
+            ></span>
+            <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-400">
+              {t.coupons.stubFine}
+            </p>
+            <span
+              class="h-8 w-24 bg-[repeating-linear-gradient(90deg,#18181b_0_2px,transparent_2px_5px)]"
+            ></span>
+          </div>
+          <span
+            class="absolute -top-5 right-6 rotate-12 border-2 border-zinc-900/80 bg-ivory/70 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.3em] text-zinc-900/80"
+          >
+            {t.coupons.soon}
+          </span>
+        </div>
       </div>
     </div>
   </section>
 </Base>
+
+<style>
+  /* Punched perforation holes: the stub is split into two halves at the tear
+     line, and each half is masked with two quarter-circle cutouts that meet
+     at the edges — the background genuinely shows through. */
+  .coupon-card {
+    filter: drop-shadow(0 22px 18px rgb(0 0 0 / 0.18));
+  }
+
+  .coupon-half {
+    --notch: 11px;
+    -webkit-mask-image:
+      radial-gradient(
+        circle var(--notch) at 0 var(--notch-y),
+        transparent calc(var(--notch) - 0.5px),
+        #000 var(--notch)
+      ),
+      radial-gradient(
+        circle var(--notch) at 100% var(--notch-y),
+        transparent calc(var(--notch) - 0.5px),
+        #000 var(--notch)
+      );
+    -webkit-mask-composite: source-in;
+    mask-image:
+      radial-gradient(
+        circle var(--notch) at 0 var(--notch-y),
+        transparent calc(var(--notch) - 0.5px),
+        #000 var(--notch)
+      ),
+      radial-gradient(
+        circle var(--notch) at 100% var(--notch-y),
+        transparent calc(var(--notch) - 0.5px),
+        #000 var(--notch)
+      );
+    mask-composite: intersect;
+  }
+
+  .coupon-half-top {
+    --notch-y: 100%;
+  }
+
+  .coupon-half-bottom {
+    --notch-y: 0%;
+  }
+</style>

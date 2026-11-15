@@ -75,6 +75,25 @@ const year = new Date().getFullYear();
     </div>
   </div>
 
+  <!-- Map -->
+  <div class="border-t border-zinc-800">
+    <div class="mx-auto w-full max-w-7xl px-6 pt-12 md:px-10">
+      <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-zinc-500">
+        {t.footer.findUs}
+      </p>
+    </div>
+    <div class="mt-6 h-64 w-full border-y border-zinc-800 md:h-80">
+      <iframe
+        src={contact.mapsEmbedUrl}
+        title={`${contact.street}, ${contact.city} — Google Maps`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+        class="h-full w-full grayscale contrast-[1.05] opacity-90 transition-all duration-500 hover:opacity-100 hover:grayscale-0"
+      ></iframe>
+    </div>
+  </div>
+
   <div class="border-t border-zinc-800">
     <div
       class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-2 px-6 py-6 text-[11px] uppercase tracking-[0.25em] text-zinc-500 md:px-10"

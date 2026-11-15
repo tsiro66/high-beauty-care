@@ -154,15 +154,23 @@ const couponsUrl = getRelativeLocaleUrl(locale, "/coupons/");
 </style>
 
 <script>
-  /* Kick playback if browser autoplay policy blocked the autoplay attribute */
-  const videos = document.querySelectorAll<HTMLVideoElement>(".hero-video");
-  videos.forEach((v) => v.play().catch(() => {}));
+  /* Re-run on every ClientRouter navigation (astro:page-load also fires on
+     the initial load): kick playback if the browser's autoplay policy
+     blocked the autoplay attribute. */
+  function initHero() {
+    const videos = document.querySelectorAll<HTMLVideoElement>(".hero-video");
+    if (videos.length === 0) return;
 
-  const kick = () => {
-    videos.forEach((v) => {
-      if (v.paused) v.play().catch(() => {});
-    });
-  };
-  window.addEventListener("pointerdown", kick, { once: true, passive: true });
-  window.addEventListener("keydown", kick, { once: true });
+    videos.forEach((v) => v.play().catch(() => {}));
+
+    const kick = () => {
+      videos.forEach((v) => {
+        if (v.paused) v.play().catch(() => {});
+      });
+    };
+    window.addEventListener("pointerdown", kick, { once: true, passive: true });
+    window.addEventListener("keydown", kick, { once: true });
+  }
+
+  document.addEventListener("astro:page-load", initHero);
 </script>

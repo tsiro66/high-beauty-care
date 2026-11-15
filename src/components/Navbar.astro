@@ -26,9 +26,7 @@ const restLinks = [
 >
   <!-- Announcement strip -->
   <div id="announcement" class="announcement bg-zinc-950 text-zinc-50">
-    <div
-      class="relative mx-auto flex h-9 max-w-7xl items-center justify-center px-6 md:px-10"
-    >
+    <div class="relative flex h-9 w-full items-center justify-center px-6 md:px-10">
       <a
         href={couponsUrl}
         class="truncate text-[10px] font-medium uppercase tracking-[0.25em] transition-opacity hover:opacity-70"
@@ -56,7 +54,7 @@ const restLinks = [
 
   <!-- Bar -->
   <div
-    class="nav-inner mx-auto grid h-20 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 md:h-24 md:px-10"
+    class="nav-inner grid h-20 w-full grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6 md:h-24 md:px-10"
   >
     <!-- Locale switcher with sliding underline -->
     <nav
@@ -415,16 +413,15 @@ const restLinks = [
 </style>
 
 <script>
-  const header = document.getElementById("site-header");
-  const toggle = document.getElementById("menu-toggle");
-  const menu = document.getElementById("fullscreen-menu");
-  const announcement = document.getElementById("announcement");
-  const dismiss = document.getElementById("dismiss-announcement");
+  /* This module executes exactly once, even across ClientRouter
+     navigations. Window/document-level listeners are attached once below;
+     element-level listeners are re-bound to the fresh DOM in initNavbar(). */
+  let header: HTMLElement | null = null;
+  let toggle: HTMLElement | null = null;
+  let menu: HTMLElement | null = null;
+  let accordionButtons: HTMLButtonElement[] = [];
 
   /* ---------- Accordions ---------- */
-  const accordionButtons =
-    menu?.querySelectorAll<HTMLButtonElement>("[data-accordion]") ?? [];
-
   function setAccordion(button: HTMLButtonElement, open: boolean) {
     const panelId = button.getAttribute("aria-controls");
     const panel = panelId ? document.getElementById(panelId) : null;
@@ -432,12 +429,6 @@ const restLinks = [
     panel?.classList.toggle("is-open", open);
     button.closest(".menu-item")?.classList.toggle("submenu-open", open);
   }
-
-  accordionButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      setAccordion(button, button.getAttribute("aria-expanded") !== "true");
-    });
-  });
 
   /* ---------- Fullscreen menu ---------- */
   function setMenu(open: boolean) {
@@ -450,16 +441,8 @@ const restLinks = [
     document.documentElement.style.overflow = open ? "hidden" : "";
   }
 
-  toggle?.addEventListener("click", () => {
-    setMenu(!header?.classList.contains("is-open"));
-  });
-
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setMenu(false);
-  });
-
-  menu?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => setMenu(false));
   });
 
   /* ---------- Scroll: glass, shrink, hide/reveal ---------- */
@@ -479,15 +462,46 @@ const restLinks = [
   }
 
   window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
 
-  /* ---------- Announcement dismiss (persisted) ---------- */
-  if (localStorage.getItem("hbc-announcement-dismissed") === "1") {
-    announcement?.classList.add("is-dismissed");
+  /* ---------- Re-bind on every page load (initial + each navigation) ---------- */
+  function initNavbar() {
+    header = document.getElementById("site-header");
+    toggle = document.getElementById("menu-toggle");
+    menu = document.getElementById("fullscreen-menu");
+    accordionButtons = menu
+      ? Array.from(menu.querySelectorAll<HTMLButtonElement>("[data-accordion]"))
+      : [];
+
+    accordionButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        setAccordion(button, button.getAttribute("aria-expanded") !== "true");
+      });
+    });
+
+    toggle?.addEventListener("click", () => {
+      setMenu(!header?.classList.contains("is-open"));
+    });
+
+    menu?.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setMenu(false));
+    });
+
+    lastY = window.scrollY;
+    onScroll();
+
+    /* ---------- Announcement dismiss (persisted) ---------- */
+    const announcement = document.getElementById("announcement");
+    const dismiss = document.getElementById("dismiss-announcement");
+
+    if (localStorage.getItem("hbc-announcement-dismissed") === "1") {
+      announcement?.classList.add("is-dismissed");
+    }
+
+    dismiss?.addEventListener("click", () => {
+      announcement?.classList.add("is-dismissed");
+      localStorage.setItem("hbc-announcement-dismissed", "1");
+    });
   }
 
-  dismiss?.addEventListener("click", () => {
-    announcement?.classList.add("is-dismissed");
-    localStorage.setItem("hbc-announcement-dismissed", "1");
-  });
+  document.addEventListener("astro:page-load", initNavbar);
 </script>

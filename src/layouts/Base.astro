@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
@@ -46,6 +47,7 @@ const elUrl = new URL(elPath, siteUrl);
     <meta property="og:locale" content={lang === "el" ? "el_GR" : "en_US"} />
     <meta property="og:locale:alternate" content={lang === "el" ? "en_US" : "el_GR"} />
     <meta name="twitter:card" content="summary_large_image" />
+    <ClientRouter />
   </head>
   <body class="min-h-screen bg-ivory text-zinc-900">
     <a
@@ -61,5 +63,13 @@ const elUrl = new URL(elPath, siteUrl);
     </main>
 
     <Footer />
+
+    <script>
+      /* ClientRouter: if a navigation starts while the fullscreen menu is
+         open, never leave the new page scroll-locked. */
+      document.addEventListener("astro:after-swap", () => {
+        document.documentElement.style.overflow = "";
+      });
+    </script>
   </body>
 </html>

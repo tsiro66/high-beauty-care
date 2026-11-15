@@ -19,3 +19,13 @@ body {
   outline: 2px solid currentColor;
   outline-offset: 3px;
 }
+
+/* ClientRouter view transitions: skip the animation for users who prefer
+   reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

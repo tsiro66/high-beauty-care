@@ -251,7 +251,11 @@ const linkClass =
 
 <script>
   // Submission will be wired to Resend later — prevent native form submit for now.
-  document
-    .getElementById("contact-form")
-    ?.addEventListener("submit", (event) => event.preventDefault());
+  // Re-run on every ClientRouter navigation (astro:page-load also fires on
+  // the initial load).
+  document.addEventListener("astro:page-load", () => {
+    document
+      .getElementById("contact-form")
+      ?.addEventListener("submit", (event) => event.preventDefault());
+  });
 </script>
